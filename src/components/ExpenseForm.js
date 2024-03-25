@@ -1,53 +1,55 @@
+import React, { useState } from "react";
+import './ExpenseForm.css';
 
-import React, {useState} from "react"
-import './ExpenseForm.css'
+const ExpenseForm = (props) => {
+    const [enteredTitle, setEnteredTitle] = useState('');
+    const [enteredAmount, setEnteredAmount] = useState('');
+    const [enteredDate, setEnteredDate] = useState('');
 
- const ExpenseForm=()=>{
+    const titleHandler = (event) => {
+       setEnteredTitle(event.target.value);
+    };
 
-    const [enteredTitle,setEnteredTitle]= useState('')
-    const [enteredAmount,setEnteredAmount]= useState('');
-    const [enteredDate, setEnteredDate]= useState('')
-    
+    const amountHandler = (event) => {
+        setEnteredAmount(event.target.value);
+    };
 
-    const titleHandler=(event)=>{
-       setEnteredTitle(event.target.value)
-    }
-    const amountHandler=(event)=>{
-        setEnteredAmount(event.target.value)
-    }
-    const dateHandler=(event)=>{
-       setEnteredDate(event.target.value)
-    }
-    const submitHandler=(event)=>{
-        event.preventDefault()
+    const dateHandler = (event) => {
+       setEnteredDate(event.target.value);
+    };
 
-        const expenseData={
+    const submitHandler = (event) => {
+        event.preventDefault();
+
+        const expenseData = {
             title: enteredTitle,
             amount: enteredAmount,
             date: new Date(enteredDate)
         };
-        console.log(expenseData);
+        
+        props.onSaveExpenseData(expenseData);
+        setEnteredTitle('');
+        setEnteredAmount('');
+        setEnteredDate('');
+    };
 
-    }
-
-    return(
+    return (
         <form onSubmit={submitHandler}>
-            <div className="new-expense__constrols" >
+            <div className="new-expense__controls" >
                 <div className="new-expense__control" > Expense Title</div>
                 <input type="text" value={enteredTitle} onChange={titleHandler}/>
 
                 <div className="new-expense__control"> Expense Amount</div>
-                <input type="number" min={0.01} max={0.100} value={enteredAmount} onChange={amountHandler}></input>
+                <input type="number" value={enteredAmount} onChange={amountHandler} />
+                
                 <div className="new-expense__control"> Date</div>
-                <input type="date" value={enteredDate}   onChange={dateHandler}></input>
+                <input type="date" value={enteredDate} onChange={dateHandler} />
             </div>
             <div className="new-expense__actions">
-            <button type="submit" >Add Expense</button>
+                <button type="submit" >Add Expense</button>
             </div>
         </form>
-    )
-
+    );
 }
 
-export default ExpenseForm
-
+export default ExpenseForm;
